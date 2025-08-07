@@ -81,7 +81,7 @@ def follow():
         }
         getjob = ses.get(url,params=params).json()
         if 'error' in getjob:
-            countdown(getjob['countdown'])
+            countdown(getjob['countdown'],getjob['countdown'])
             time.sleep(1)
             getjob = ses.get(url,params=params).json()
         else:
