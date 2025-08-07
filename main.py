@@ -96,10 +96,10 @@ def login():
 
     name = res['data']['user']
     xu = res['data']['xu']
-    print(f'User: {name}')
-    print(f'Xu: {xu}')
+    print(f'{color["green"]}User: {color["rose"]}{name}')
+    print(f'{color["green"]}Xu: {color["rose"]}{xu}')
 
-    tiktokid = input(f'Nhập id tiktok cần chạy: ')
+    tiktokid = input(f'{color["green"]}Nhập id tiktok cần chạy: ')
     params = {
         'fields': 'tiktok_run',
         'id': tiktokid,
