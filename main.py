@@ -90,9 +90,8 @@ def follow():
                 uid = job['real_id']
                 id = job['id']
                 os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk567753://user/profile/{uid}" >nul 2>&1')
-                time.sleep(3)
                 follow_btn = d(className="android.widget.TextView", text="Follow")
-                if follow_btn.exists:
+                if follow_btn.wait(timeout=5.0):
                     follow_btn.click()
                     countdown(7,10)
                     params_cpl = {
