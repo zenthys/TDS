@@ -37,47 +37,6 @@ color = {
     "purple": color_256(129),
 }
 RESET = "\033[0m"
-def fakehuman(so_video=7, delay_range=(20, 22)):
-    for i in range(so_video):
-        try:
-            d.swipe(0.5, 0.8, 0.5, 0.2, duration=0.05)
-            rd = random.randint(1, 10)
-            delay = random.uniform(*delay_range)
-            print(f"[{i+1}]⏳ Xem video {delay:.1f} giây...")
-            time.sleep(delay)
-            if rd == 1:
-                print(f'Action: Tym')
-                bt = d.xpath('//android.widget.Button[contains(@content-desc, "Thích video.")]')
-                if bt.exists:
-                    bt.click()
-
-            elif rd == 2:
-                print(f'Action: Favorite')
-                bt = d.xpath('//android.widget.Button[contains(@content-desc, "Thêm hoặc xóa video này khỏi mục Yêu thích.")]')
-                if bt.exists:
-                    bt.click()
-
-            elif rd == 3 or rd == 5:
-                print(f'Action: Đăng lại')
-                bt = d.xpath('//android.widget.Button[contains(@content-desc, "Chia sẻ video.")]')
-                if bt.exists:
-                    bt.click()
-                    time.sleep(0.6)
-                    if d(text="Đăng lại").exists:
-                        d(text="Đăng lại").click()
-                    else:
-                        if d(text="Sao chép Liên kết").exists:
-                            d(text="Sao chép Liên kết").click()
-                        else:
-                            width, height = d.window_size()
-                            x = width // 2
-                            y = height // 2
-                            d.click(x, y)
-        except:
-            print("Vui lòng kết nối điện thoại với máy tính")
-            exit()
-    print("✅ Done.")
-
 def countdown(time_1, time_2, message=f"{color['green']}ᴠᴜɪ ʟòɴɢ ᴄʜờ"):
     if time_1 > time_2:
         time_1, time_2 = time_2, time_1
@@ -135,13 +94,14 @@ def follow():
                 follow_btn = d(className="android.widget.TextView", text="Follow")
                 if follow_btn.exists:
                     follow_btn.click()
-                    countdown(15,20)
+                    countdown(7,10)
                     params_cpl = {
                         'type': 'TIKTOK_FOLLOW_CACHE',
                         'id': id,
                         'access_token': token
                     }
                     postjob = ses.get(donejob_url,params=params_cpl).json()
+                    # print(postjob)
                     cache = postjob['cache']
                     msg = postjob['msg']
                     error = postjob['error']
@@ -166,9 +126,6 @@ def follow():
                         else:
                             er = getcoin['error']
                             print(er)
-                        # print(f'{color["green"]}Lướt video chống nhả follow')
-                        # os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk1233://aweme/detail/" >nul 2>&1')
-                        # fakehuman()
 
 def main():
     login()
@@ -177,3 +134,4 @@ def main():
     follow()
 main()
 #adb connect 192.168.1.146:5555
+# 3,5 / 2,9 / 2,8 / 3,7 / 2,7 /
