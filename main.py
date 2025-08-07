@@ -113,61 +113,62 @@ def follow():
     job_error = 0
     while True:
         time.sleep(5)
+        if job_error >= 3:
+            print("Acc TikTok bị nhả follow hoặc đã xảy ra lỗi")
+            exit()
         params = {
             'fields': 'tiktok_follow',
             'access_token': token
         }
-        try:
+        getjob = ses.get(url,params=params).json()
+        if 'error' in getjob:
+            countdown(getjob['countdown'])
+            time.sleep(1)
             getjob = ses.get(url,params=params).json()
-        except:
-            time.sleep(80)
-            getjob = ses.get(url,params=params).json()
-        donejob_url = 'https://traodoisub.com/api/coin/'
-        if job_error >= 3:
-            print("Acc TikTok bị nhả follow hoặc đã xảy ra lỗi")
-            exit()
-        for job in getjob['data']:
-            uid = job['real_id']
-            id = job['id']
-            os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk567753://user/profile/{uid}" >nul 2>&1')
-            time.sleep(3)
-            follow_btn = d(className="android.widget.TextView", text="Follow")
-            if follow_btn.exists:
-                follow_btn.click()
-                countdown(15,20)
-                params_cpl = {
-                    'type': 'TIKTOK_FOLLOW_CACHE',
-                    'id': id,
-                    'access_token': token
-                }
-                postjob = ses.get(donejob_url,params=params_cpl).json()
-                cache = postjob['cache']
-                msg = postjob['msg']
-                error = postjob['error']
-                if msg == 'Thành công':
-                    print(f'{color['rose']}{msg} | {id}')
-                    job_error = 0
-                else:
-                    print(f'{color['red']}{error}')
-                    job_error += 1
-                if cache >= 8:
-                    params_coin = {
-                        'type': 'TIKTOK_FOLLOW',
-                        'id': 'TIKTOK_FOLLOW_API',
+        else:
+            donejob_url = 'https://traodoisub.com/api/coin/'
+            for job in getjob['data']:
+                uid = job['real_id']
+                id = job['id']
+                os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk567753://user/profile/{uid}" >nul 2>&1')
+                time.sleep(3)
+                follow_btn = d(className="android.widget.TextView", text="Follow")
+                if follow_btn.exists:
+                    follow_btn.click()
+                    countdown(15,20)
+                    params_cpl = {
+                        'type': 'TIKTOK_FOLLOW_CACHE',
+                        'id': id,
                         'access_token': token
                     }
-                    time.sleep(3)
-                    getcoin = ses.get(donejob_url,params=params_coin).json()
-                    if getcoin['success'] == 200:
-                        mess = getcoin['data']['msg']
-                        xu = getcoin['data']['xu']
-                        print(f'{color["green"]}{mess} | {color['lpink']}Xu hiện có: {xu}')
+                    postjob = ses.get(donejob_url,params=params_cpl).json()
+                    cache = postjob['cache']
+                    msg = postjob['msg']
+                    error = postjob['error']
+                    if msg == 'Thành công':
+                        print(f'{color['rose']}{msg} | {id}')
+                        job_error = 0
                     else:
-                        er = getcoin['error']
-                        print(er)
-                    # print(f'{color["green"]}Lướt video chống nhả follow')
-                    # os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk1233://aweme/detail/" >nul 2>&1')
-                    # fakehuman()
+                        print(f'{color['red']}{error}')
+                        job_error += 1
+                    if cache >= 8:
+                        params_coin = {
+                            'type': 'TIKTOK_FOLLOW',
+                            'id': 'TIKTOK_FOLLOW_API',
+                            'access_token': token
+                        }
+                        time.sleep(3)
+                        getcoin = ses.get(donejob_url,params=params_coin).json()
+                        if getcoin['success'] == 200:
+                            mess = getcoin['data']['msg']
+                            xu = getcoin['data']['xu']
+                            print(f'{color["green"]}{mess} | {color['lpink']}Xu hiện có: {xu}')
+                        else:
+                            er = getcoin['error']
+                            print(er)
+                        # print(f'{color["green"]}Lướt video chống nhả follow')
+                        # os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk1233://aweme/detail/" >nul 2>&1')
+                        # fakehuman()
 
 def main():
     login()
@@ -175,3 +176,4 @@ def main():
     time.sleep(3)
     follow()
 main()
+#adb connect 192.168.1.146:5555
