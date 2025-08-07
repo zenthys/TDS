@@ -12,7 +12,6 @@ except:
     token = input("Nhập TDS Token: ").strip()
     json.dump({"token": token}, open("config.json", "w"))
 
-# token = 'TDS9JSOyVmdlNnI6IiclZXZzJCLi8mcQ9mTxEDRiojIyV2c1Jye'
 url = "https://traodoisub.com/api/"
 try:
     d = u2.connect()
@@ -134,3 +133,4 @@ def main():
 main()
 #adb connect 192.168.1.146:5555
 # 3,5 / 2,9 / 2,8 / 3,7 / 2,7 /
+
