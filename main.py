@@ -82,54 +82,55 @@ def follow():
         getjob = ses.get(url,params=params).json()
         if 'error' in getjob:
             countdown(getjob['countdown'],getjob['countdown'])
+            continue
         else:
             donejob_url = 'https://traodoisub.com/api/coin/'
-            for job in getjob['data']:
-                uid = job['real_id']
-                id = job['id']
-                os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk567753://user/profile/{uid}" >nul 2>&1')
-                time.sleep(2)
-                follow_btn = d(className="android.widget.TextView", text="Follow")
-                if follow_btn.exists:
-                    follow_btn.click()
-                    countdown(7,10)
-                    params_cpl = {
-                        'type': 'TIKTOK_FOLLOW_CACHE',
-                        'id': id,
-                        'access_token': token
-                    }
-                    postjob = ses.get(donejob_url,params=params_cpl).json()
-                    # print(postjob)
-                    cache = postjob['cache']
-                    msg = postjob['msg']
-                    error = postjob['error']
-                    if msg == 'Thành công':
-                        print(f'{color['rose']}{msg} | {id}')
-                        job_error = 0
-                    else:
-                        print(f'{color['red']}{error}')
-                        job_error += 1
-                    if cache >= 8:
-                        params_coin = {
-                            'type': 'TIKTOK_FOLLOW',
-                            'id': 'TIKTOK_FOLLOW_API',
+            if 'data' in getjob:
+                for job in getjob['data']:
+                    uid = job['real_id']
+                    id = job['id']
+                    os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk567753://user/profile/{uid}" >nul 2>&1')
+                    time.sleep(2)
+                    follow_btn = d(className="android.widget.TextView", text="Follow")
+                    if follow_btn.exists:
+                        follow_btn.click()
+                        countdown(5,8)
+                        params_cpl = {
+                            'type': 'TIKTOK_FOLLOW_CACHE',
+                            'id': id,
                             'access_token': token
                         }
-                        time.sleep(3)
-                        getcoin = ses.get(donejob_url,params=params_coin).json()
-                        if getcoin['success'] == 200:
-                            mess = getcoin['data']['msg']
-                            xu = getcoin['data']['xu']
-                            print(f'{color["green"]}{mess} | {color['lpink']}Xu hiện có: {xu}')
+                        postjob = ses.get(donejob_url,params=params_cpl).json()
+                        # print(postjob)
+                        cache = postjob['cache']
+                        msg = postjob['msg']
+                        error = postjob['error']
+                        if msg == 'Thành công':
+                            print(f'{color['rose']}{msg} | {id}')
+                            job_error = 0
                         else:
-                            er = getcoin['error']
-                            print(er)
-
+                            print(f'{color['red']}{error}')
+                            job_error += 1
+                        if cache >= 8:
+                            params_coin = {
+                                'type': 'TIKTOK_FOLLOW',
+                                'id': 'TIKTOK_FOLLOW_API',
+                                'access_token': token
+                            }
+                            time.sleep(3)
+                            getcoin = ses.get(donejob_url,params=params_coin).json()
+                            if getcoin['success'] == 200:
+                                mess = getcoin['data']['msg']
+                                xu = getcoin['data']['xu']
+                                print(f'{color["green"]}{mess} | {color['lpink']}Xu hiện có: {xu}')
+                            else:
+                                er = getcoin['error']
+                                print(er)
+            else:
+                continue
 def main():
     login()
     print(f'{color['lpink']}TDS Follow TikTok')
     time.sleep(3)
     follow()
 main()
-#adb connect 192.168.1.146:5555
-# 3,5 / 2,9 / 2,8 / 3,7 / 2,7 /
