@@ -12,6 +12,7 @@ except:
     token = input("Nhập TDS Token: ").strip()
     json.dump({"token": token}, open("config.json", "w"))
 
+# token = 'TDS9JSOyVmdlNnI6IiclZXZzJCLi8mcQ9mTxEDRiojIyV2c1Jye'
 url = "https://traodoisub.com/api/"
 try:
     d = u2.connect()
@@ -89,8 +90,9 @@ def follow():
                 uid = job['real_id']
                 id = job['id']
                 os.system(f'adb shell am start -a android.intent.action.VIEW -d "snssdk567753://user/profile/{uid}" >nul 2>&1')
+                time.sleep(2)
                 follow_btn = d(className="android.widget.TextView", text="Follow")
-                if follow_btn.wait(timeout=5.0):
+                if follow_btn.exists:
                     follow_btn.click()
                     countdown(7,10)
                     params_cpl = {
@@ -133,4 +135,3 @@ def main():
 main()
 #adb connect 192.168.1.146:5555
 # 3,5 / 2,9 / 2,8 / 3,7 / 2,7 /
-
