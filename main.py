@@ -82,8 +82,6 @@ def follow():
         getjob = ses.get(url,params=params).json()
         if 'error' in getjob:
             countdown(getjob['countdown'],getjob['countdown'])
-            time.sleep(1)
-            getjob = ses.get(url,params=params).json()
         else:
             donejob_url = 'https://traodoisub.com/api/coin/'
             for job in getjob['data']:
