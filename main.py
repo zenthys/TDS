@@ -184,7 +184,7 @@ def follow():
     total_job = 0
     while True:
         time.sleep(5)
-        if total_job > 100:
+        if total_job > 80:
             os.system(f'adb shell am force-stop com.ss.android.tt.creator >nul 2>&1')
             print(f'Đã dừng TikTok Studio')
             total_job = 0
@@ -216,9 +216,12 @@ def follow():
                         }
                         postjob = ses.get(donejob_url,params=params_cpl).json()
                         # print(postjob)
-                        cache = postjob['cache']
-                        msg = postjob['msg']
-                        error = postjob['error']
+                        if 'cache' in postjob:
+                            cache = postjob['cache']
+                            msg = postjob['msg']
+                            error = postjob['error']
+                        else:
+                            continue
                         if msg == 'Thành công':
                             print(f'{color['rose']}{msg} | {color['green']}https://tiktok.com/@{uid}')
                         else:
