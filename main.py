@@ -252,6 +252,7 @@ def follow():
             else:
                 continue
 def main():
+    os.system('cls')
     login()
     acc_select()
     time.sleep(2)
