@@ -178,7 +178,7 @@ def main():
                 continue
             try:
                 send_otp(username=username,mail=mail)
-                time.sleep(7)
+                time.sleep(10)
             except Exception as e:
                 print("Lỗi khi gửi OTP")
                 continue
@@ -194,7 +194,7 @@ def main():
                 password = "Kocopass11@#"
                 d+=1
                 print(f"[{d}] {username} | {password} | Success")
-                time.sleep(3)
+                time.sleep(5)
             else:
                 print(f"{username} | {password} | Failed")
     else:
