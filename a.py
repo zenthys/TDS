@@ -114,7 +114,7 @@ def send_otp(username,mail):
 def get_code(mail):
     i = 0
     while True:
-        if i>=10:
+        if i>=5:
             print("Không thể lấy mã, hãy tạo tài khoản khác dưới đây")
             return False
         try:
