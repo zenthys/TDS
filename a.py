@@ -97,6 +97,10 @@ def send_otp(username,mail):
     try:
         response = requests.post('https://sso.garena.com/api/send_register_code_email', cookies=cookies, headers=headers, data=data)
         # print(response.text)
+        if 'geo' in response.text:
+            print("Dính Capcha Xác Minh Con Người, đổi VPN hoặc Wifi")
+            time.sleep(3)
+            return False
         if response.status_code == 200:
             response_json = response.json()
             if response_json.get("result") == 0:
@@ -105,7 +109,6 @@ def send_otp(username,mail):
             else:
                 
                 return False
-
         else:
             
             return False
@@ -217,6 +220,7 @@ def main():
                 a = send_otp(username=username,mail=mail)
                 if a == False:
                     print("Không thể gửi yêu cầu lấy mã")
+                    continue
                 time.sleep(10)
             except Exception as e:
                 print("Lỗi khi gửi OTP")
