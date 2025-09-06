@@ -36,11 +36,11 @@ domains = [
     "@quanlytinhgon.vn",
     "@satato.com.vn",
     "@batdongsanvgp.com",
-    "@mail.hunght1890.com",
+    # "@mail.hunght1890.com",
     "@hoanganh.mx",
     "@lienvietlaw.com",
-    "@toanthinhphatmedical.com",
-    "@inpos.com.vn",
+    # "@toanthinhphatmedical.com",
+    # "@inpos.com.vn",
     "@itemjunction.net",
 
 ]
@@ -55,7 +55,7 @@ domains = [
 def random_username():
     ho = random.choice(ho_list)
     ten = random.choice(ten_list)
-    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=3))
     return ho + ten + suffix
 
 def create_temp_mail():
@@ -112,23 +112,31 @@ def send_otp(username,mail):
         print(f"Lỗi kết nối: {e}")
         return False
 def get_code(mail):
-    i = 0
-    while True:
-        if i>=5:
-            print("Không thể lấy mã, hãy tạo tài khoản khác dưới đây")
-            return False
+    for i in range(5):
         try:
-            data = requests.get(f'https://hunght1890.com/{mail}').text
+            data = requests.get(f'https://hunght1890.com/{mail}').text.strip()
+
+            if data == '[]' or not data:
+                print(f"Thử lần {i+1}: Mail chưa có nội dung.")
+                time.sleep(3)
+                continue
+
             otp_match = re.search(r"\*\*(\d+)\*\*", data)
             if otp_match:
-                print(f"Lấy thành công OTP {otp_match.group(1)}")
-                return otp_match.group(1)
+                code = otp_match.group(1)
+                print(f"Lấy thành công OTP {code}")
+                return code
             else:
+                print(f"Thử lần {i+1}: Không tìm thấy OTP trong nội dung.")
+                time.sleep(3)
                 continue
-        except:
-            i+=1
+        except Exception as e:
+            print(f"Thử lần {i+1}: Lỗi {e}")
             time.sleep(3)
             continue
+
+    print("Không thể lấy mã, hãy tạo tài khoản khác dưới đây")
+    return False
 def reg(username,code,mail):
     cookies = {
         '_ga': 'GA1.1.1670241420.1757043722',
@@ -192,6 +200,14 @@ def main():
             try:
                 username = random_username()
                 mail = create_temp_mail()
+                if len(mail) > 30:
+                    user, domain = mail.split("@", 1)  # tách username và domain
+                    max_user_len = 30 - (len(domain) + 1)  # trừ đi @ + domain
+                    if max_user_len < 1:
+                        # nếu domain quá dài, giữ lại toàn bộ domain và cắt username thành 1 ký tự
+                        max_user_len = 1
+                    user = user[:max_user_len]
+                    mail = user + "@" + domain
                 print(mail)
             except Exception as e:
                 print("Lỗi khi tạo username")
@@ -203,11 +219,9 @@ def main():
                 print("Lỗi khi gửi OTP")
                 continue
 
-            try:
+            if get_code(mail=mail) != False:
                 code = get_code(mail=mail)
-                time.sleep(10)
-            except Exception as e:
-                print("Lỗi khi lấy mã",e)
+            else:
                 continue
 
             if reg(username=username, code=code,mail=mail):
