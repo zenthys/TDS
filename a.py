@@ -40,7 +40,7 @@ domains = [
     "@batdongsanvgp.com",
     "@mail.hunght1890.com",
     "@hoanganh.mx",
-    "@lienvietlaw.com",
+    # "@lienvietlaw.com",
     "@toanthinhphatmedical.com",
     "@inpos.com.vn",
     "@itemjunction.net",
@@ -61,7 +61,7 @@ def send_otp(username,mail):
     cookies = {
         '_ga': 'GA1.1.1670241420.1757043722',
         '_ga_1M7M9L6VPX': 'GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0',
-        'datadome': 'zy7xkBMxjr8nSmfrYC2W6qQ9JleBdHHWFgg3MYNcA5dTPwRvozY8iMerg6QQnpLf0syH87GkFd_0j4Sk0j82n18KxdLYEYFYA2zulCOxyBK7JyoW7mtH9i29sDL_QnZO',
+        'datadome': 'ywuw_ll~Jjo0amQqF1w3Q3N6gS6enb~oKuUcpvodEHwjQoIc_GAG0CyqiC2xaLq5eNj5R5HleEyHW3JGmiTdyNQ1SOxSt3pVFJYfVWaQ3JbyxMjXde5NAIiNCZP9UNQM',
     }
 
     headers = {
@@ -91,14 +91,15 @@ def send_otp(username,mail):
 
     try:
         response = requests.post('https://sso.garena.com/api/send_register_code_email', cookies=cookies, headers=headers, data=data)
-        # print(response.text)
         if response.status_code == 200:
             response_json = response.json()
             if response_json.get("result") == 0:
+                print("Gửi OTP thành công")
                 return True
             else:
                 
                 return False
+
         else:
             
             return False
@@ -106,17 +107,28 @@ def send_otp(username,mail):
         print(f"Lỗi kết nối: {e}")
         return False
 def get_code(mail):
-    url = f'https://hunght1890.com/{mail}'
-    mess = requests.get(url).json()
-    body = mess[0]['body']
-    otp_match = re.search(r'\b\d{8}\b', body)  
-    if otp_match:
-        return otp_match.group(0)
+    i = 0
+    while True:
+        if i>=10:
+            print("Không thể lấy mã, hãy tạo tài khoản khác dưới đây")
+            return
+        try:
+            data = requests.get(f'https://hunght1890.com/{mail}').text
+            otp_match = re.search(r"\*\*(\d+)\*\*", data)
+            if otp_match:
+                print(f"Lấy thành công OTP {otp_match.group(1)}")
+                return otp_match.group(1)
+            else:
+                continue
+        except:
+            i+=1
+            time.sleep(3)
+            continue
 def reg(username,code,mail):
     cookies = {
         '_ga': 'GA1.1.1670241420.1757043722',
         '_ga_1M7M9L6VPX': 'GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0',
-        'datadome': 'zy7xkBMxjr8nSmfrYC2W6qQ9JleBdHHWFgg3MYNcA5dTPwRvozY8iMerg6QQnpLf0syH87GkFd_0j4Sk0j82n18KxdLYEYFYA2zulCOxyBK7JyoW7mtH9i29sDL_QnZO',
+        'datadome': 'ywuw_ll~Jjo0amQqF1w3Q3N6gS6enb~oKuUcpvodEHwjQoIc_GAG0CyqiC2xaLq5eNj5R5HleEyHW3JGmiTdyNQ1SOxSt3pVFJYfVWaQ3JbyxMjXde5NAIiNCZP9UNQM',
     }
 
     headers = {
@@ -139,7 +151,7 @@ def reg(username,code,mail):
         'username': username,
         'email': mail,
         'email_otp': code,
-        'password': '3e52d198d9c6499c66656c5ee4a4983e7cd30292b2a6d5649ef9547760face2933cb06b1caeb58275438e66d23c5d1657d8fb22e060cdefa3ebea3f883064285231d23c77a0de8cee5165efbc43fc4eacd8c0d79e35901b4c67f1dc4bae6f1d167291bf90b3c363ba12e48dac39dbd136dba234856e71368f4deabbb099f633a',
+        'password': '4ecdfe7ff3ea0d7726e703765ae26a52d2aef984bd95de0ccb389d74dcffabfec4a7cb0f650b81f51b493c9189997bedd02f47b8ce0608ebc88688c9f889229eb9266bde30e398e62427dc796d8b98081834b77eecfbc32222ad5a9c60f2f18910a675b24a7201da4cc023925e176b3f1f44f18cb4654a951561f4b8aaa73add',
         'location': 'VN',
         'locale': 'vi-VN',
         'format': 'json',
@@ -148,10 +160,13 @@ def reg(username,code,mail):
 
     response = requests.post('https://sso.garena.com/api/register', cookies=cookies, headers=headers, data=data)
     if response.status_code == 200:
-        password = "Kocopass11@#"
-        with open("accounts.txt", "a", encoding="utf-8") as f:
-            f.write(f"{username} | {password}\n")
-        return True
+        if 'username' in response.json():
+            password = "Kocopass11@#"
+            with open("accounts.txt", "a", encoding="utf-8") as f:
+                f.write(f"{username} | {password}\n")
+            return True
+        else:
+            return False
     else:
         return False
 
@@ -172,7 +187,7 @@ def main():
             try:
                 username = random_username()
                 mail = create_temp_mail()
-                # print(mail)
+                print(mail)
             except Exception as e:
                 print("Lỗi khi tạo username")
                 continue
@@ -185,7 +200,8 @@ def main():
 
             try:
                 code = get_code(mail=mail)
-                time.sleep(7)
+                print(code)
+                time.sleep(10)
             except Exception as e:
                 print("Lỗi khi lấy mã",e)
                 continue
