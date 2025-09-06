@@ -36,7 +36,7 @@ ten_list = [
 domains = [
     "@donglucsport.com",
     "@quanlytinhgon.vn",
-    "@satato.com.vn",
+    # "@satato.com.vn",
     "@batdongsanvgp.com",
     "@mail.hunght1890.com",
     "@hoanganh.mx",
