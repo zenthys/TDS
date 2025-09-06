@@ -64,18 +64,18 @@ def create_temp_mail():
     return username + domain
 def send_otp(username,mail):
     cookies = {
-        '_ga': 'GA1.1.1670241420.1757043722',
-        '_ga_1M7M9L6VPX': 'GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0',
+        '_ga': 'GA1.1.430532460.1757185746',
+        '_ga_1M7M9L6VPX': 'GS2.1.s1757185746$o1$g1$t1757185808$j60$l0$h0',
         'datadome': 'AvY4q38wBIJwBdZfSZwN5t2iDP0R5JHcV69C6cljXRAT8OyLAiE0a4igdOIRtw1xbsA_qGZybqaWmQjuh3vAXz279~5~6AjJ9imFtj~am1V7VGzxk80JaswZbJhGPgJ6',
     }
 
     headers = {
         'Accept': 'application/json, text/plain, */*',
-        'Accept-Language': 'vi,en-US;q=0.9,en;q=0.8',
+        'Accept-Language': 'vi',
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         'Origin': 'https://sso.garena.com',
-        'Referer': 'https://sso.garena.com/universal/register',
+        'Referer': 'https://sso.garena.com/universal/register?redirect_uri=https://sso.garena.com/universal/login?app_id=10100%26redirect_uri=https%253A%252F%252Faccount.garena.com%252F%26locale=vi-VN&locale=vi-VN',
         'Sec-Fetch-Dest': 'empty',
         'Sec-Fetch-Mode': 'cors',
         'Sec-Fetch-Site': 'same-origin',
@@ -83,7 +83,7 @@ def send_otp(username,mail):
         'sec-ch-ua': '"Not;A=Brand";v="99", "Microsoft Edge";v="139", "Chromium";v="139"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
-        # 'Cookie': '_ga=GA1.1.1670241420.1757043722; _ga_1M7M9L6VPX=GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0; datadome=y3_0IoncH~C~shBTaxoCwk0FRnDysnQPMW~r9ztuASZvDTQLJttrPS~4XBbTKws8lrcl69KFRwGuPlCGUAG_UriT69n6twFPhfu_n~ZkyFHVJDTFhAssOTGkhCUZtTRm',
+        # 'Cookie': '_ga=GA1.1.430532460.1757185746; _ga_1M7M9L6VPX=GS2.1.s1757185746$o1$g1$t1757185808$j60$l0$h0; datadome=V1fBe75QduNeL3PvlMq86aSRbN8Xrz2ViinuJ2G3UWp8qWr85p669zlMQSH445do720M_1K4Y4VJSpDIrLJpg2lswo5BySBA01CsgeNkXeyPepnK6jvjncfI47CzjJAA',
     }
 
     data = {
@@ -96,7 +96,7 @@ def send_otp(username,mail):
 
     try:
         response = requests.post('https://sso.garena.com/api/send_register_code_email', cookies=cookies, headers=headers, data=data)
-        print(response.text)
+        # print(response.text)
         if response.status_code == 200:
             response_json = response.json()
             if response_json.get("result") == 0:
@@ -140,8 +140,8 @@ def get_code(mail):
     return False
 def reg(username,code,mail):
     cookies = {
-        '_ga': 'GA1.1.1670241420.1757043722',
-        '_ga_1M7M9L6VPX': 'GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0',
+        '_ga': 'GA1.1.430532460.1757185746',
+        '_ga_1M7M9L6VPX': 'GS2.1.s1757185746$o1$g1$t1757185808$j60$l0$h0',
         'datadome': 'AvY4q38wBIJwBdZfSZwN5t2iDP0R5JHcV69C6cljXRAT8OyLAiE0a4igdOIRtw1xbsA_qGZybqaWmQjuh3vAXz279~5~6AjJ9imFtj~am1V7VGzxk80JaswZbJhGPgJ6',
     }
 
