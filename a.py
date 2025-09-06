@@ -111,7 +111,7 @@ def get_code(mail):
     while True:
         if i>=10:
             print("Không thể lấy mã, hãy tạo tài khoản khác dưới đây")
-            return
+            return False
         try:
             data = requests.get(f'https://hunght1890.com/{mail}').text
             otp_match = re.search(r"\*\*(\d+)\*\*", data)
@@ -200,7 +200,6 @@ def main():
 
             try:
                 code = get_code(mail=mail)
-                print(code)
                 time.sleep(10)
             except Exception as e:
                 print("Lỗi khi lấy mã",e)
