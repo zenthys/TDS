@@ -5,7 +5,6 @@ import random
 import string
 import json
 
-# Danh sách 100 họ (không dấu, không viết hoa)
 ho_list = [
     "nguyen", "tran", "le", "pham", "hoang", "phan", "vu", "vo", "dang", "bui",
     "do", "ho", "ngo", "duong", "ly", "truong", "ha", "mai", "lai", "chau",
@@ -19,7 +18,6 @@ ho_list = [
     "dao", "dong", "ly", "nguyen", "nguyet", "dieu", "huynh", "thanh", "tu", "quynh"
 ]
 
-# Danh sách 100 tên (không dấu, không viết hoa)
 ten_list = [
     "an", "binh", "chien", "duong", "hung", "khoa", "lam", "minh", "nam", "phuc",
     "quang", "son", "thanh", "viet", "xuan", "yen", "hai", "long", "ngoc", "trung",
@@ -36,13 +34,13 @@ ten_list = [
 domains = [
     "@donglucsport.com",
     "@quanlytinhgon.vn",
-    # "@satato.com.vn",
+    "@satato.com.vn",
     "@batdongsanvgp.com",
     "@mail.hunght1890.com",
     "@hoanganh.mx",
-    # "@lienvietlaw.com",
+    "@lienvietlaw.com",
     "@toanthinhphatmedical.com",
-    # "@inpos.com.vn",
+    "@inpos.com.vn",
     "@itemjunction.net",
 
 ]
@@ -50,8 +48,17 @@ domains = [
 def random_username():
     ho = random.choice(ho_list)
     ten = random.choice(ten_list)
-    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
+    # random 2-3 chữ cái
+    letters = ''.join(random.choices(string.ascii_letters, k=random.randint(2, 3)))
+    # random số từ 1000 đến 99999
+    number = str(random.randint(1000, 99999))
+    suffix = letters + number
     return ho + ten + suffix
+# def random_username():
+#     ho = random.choice(ho_list)
+#     ten = random.choice(ten_list)
+#     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
+#     return ho + ten + suffix
 
 def create_temp_mail():
     username = random_username()
