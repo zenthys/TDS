@@ -45,18 +45,18 @@ domains = [
 
 ]
 
-def random_username():
-    ho = random.choice(ho_list)
-    ten = random.choice(ten_list)
-    letters = ''.join(random.choices(string.ascii_letters, k=random.randint(2, 3)))
-    number = str(random.randint(1000, 99999))
-    suffix = letters + number
-    return ho + ten + suffix
 # def random_username():
 #     ho = random.choice(ho_list)
 #     ten = random.choice(ten_list)
-#     suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=4))
+#     letters = ''.join(random.choices(string.ascii_letters, k=random.randint(2, 3)))
+#     number = str(random.randint(1000, 99999))
+#     suffix = letters + number
 #     return ho + ten + suffix
+def random_username():
+    ho = random.choice(ho_list)
+    ten = random.choice(ten_list)
+    suffix = ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+    return ho + ten + suffix
 
 def create_temp_mail():
     username = random_username()
