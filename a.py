@@ -42,7 +42,7 @@ domains = [
     "@hoanganh.mx",
     # "@lienvietlaw.com",
     "@toanthinhphatmedical.com",
-    "@inpos.com.vn",
+    # "@inpos.com.vn",
     "@itemjunction.net",
 
 ]
