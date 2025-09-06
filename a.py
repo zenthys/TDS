@@ -66,7 +66,7 @@ def send_otp(username,mail):
     cookies = {
         '_ga': 'GA1.1.1670241420.1757043722',
         '_ga_1M7M9L6VPX': 'GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0',
-        'datadome': 'ywuw_ll~Jjo0amQqF1w3Q3N6gS6enb~oKuUcpvodEHwjQoIc_GAG0CyqiC2xaLq5eNj5R5HleEyHW3JGmiTdyNQ1SOxSt3pVFJYfVWaQ3JbyxMjXde5NAIiNCZP9UNQM',
+        'datadome': 'AvY4q38wBIJwBdZfSZwN5t2iDP0R5JHcV69C6cljXRAT8OyLAiE0a4igdOIRtw1xbsA_qGZybqaWmQjuh3vAXz279~5~6AjJ9imFtj~am1V7VGzxk80JaswZbJhGPgJ6',
     }
 
     headers = {
@@ -96,6 +96,7 @@ def send_otp(username,mail):
 
     try:
         response = requests.post('https://sso.garena.com/api/send_register_code_email', cookies=cookies, headers=headers, data=data)
+        print(response.text)
         if response.status_code == 200:
             response_json = response.json()
             if response_json.get("result") == 0:
@@ -141,7 +142,7 @@ def reg(username,code,mail):
     cookies = {
         '_ga': 'GA1.1.1670241420.1757043722',
         '_ga_1M7M9L6VPX': 'GS2.1.s1757054158$o3$g1$t1757054164$j54$l0$h0',
-        'datadome': 'ywuw_ll~Jjo0amQqF1w3Q3N6gS6enb~oKuUcpvodEHwjQoIc_GAG0CyqiC2xaLq5eNj5R5HleEyHW3JGmiTdyNQ1SOxSt3pVFJYfVWaQ3JbyxMjXde5NAIiNCZP9UNQM',
+        'datadome': 'AvY4q38wBIJwBdZfSZwN5t2iDP0R5JHcV69C6cljXRAT8OyLAiE0a4igdOIRtw1xbsA_qGZybqaWmQjuh3vAXz279~5~6AjJ9imFtj~am1V7VGzxk80JaswZbJhGPgJ6',
     }
 
     headers = {
@@ -213,7 +214,9 @@ def main():
                 print("Lỗi khi tạo username")
                 continue
             try:
-                send_otp(username=username,mail=mail)
+                a = send_otp(username=username,mail=mail)
+                if a == False:
+                    print("Không thể gửi yêu cầu lấy mã")
                 time.sleep(10)
             except Exception as e:
                 print("Lỗi khi gửi OTP")
