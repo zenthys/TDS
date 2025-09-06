@@ -48,9 +48,7 @@ domains = [
 def random_username():
     ho = random.choice(ho_list)
     ten = random.choice(ten_list)
-    # random 2-3 chữ cái
     letters = ''.join(random.choices(string.ascii_letters, k=random.randint(2, 3)))
-    # random số từ 1000 đến 99999
     number = str(random.randint(1000, 99999))
     suffix = letters + number
     return ho + ten + suffix
