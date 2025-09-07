@@ -38,7 +38,7 @@ domains = [
     "@batdongsanvgp.com",
     # "@mail.hunght1890.com",
     "@hoanganh.mx",
-    "@lienvietlaw.com",
+    # "@lienvietlaw.com",
     # "@toanthinhphatmedical.com",
     # "@inpos.com.vn",
     "@itemjunction.net",
@@ -128,7 +128,7 @@ def get_code(mail):
             otp_match = re.search(r"\*\*(\d+)\*\*", data)
             if otp_match:
                 code = otp_match.group(1)
-                print(f"Lấy thành công OTP {code}")
+                print(f"Lấy thành công OTP {code}\r")
                 return code
             else:
                 print(f"Thử lần {i+1}: Không tìm thấy OTP trong nội dung.")
@@ -205,10 +205,9 @@ def main():
                 username = random_username()
                 mail = create_temp_mail()
                 if len(mail) > 30:
-                    user, domain = mail.split("@", 1)  # tách username và domain
-                    max_user_len = 30 - (len(domain) + 1)  # trừ đi @ + domain
+                    user, domain = mail.split("@", 1)
+                    max_user_len = 30 - (len(domain) + 1)
                     if max_user_len < 1:
-                        # nếu domain quá dài, giữ lại toàn bộ domain và cắt username thành 1 ký tự
                         max_user_len = 1
                     user = user[:max_user_len]
                     mail = user + "@" + domain
